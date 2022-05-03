@@ -1,15 +1,17 @@
-import numpy as np
+from json import loads, dumps
 from sklearn.linear_model import LinearRegression
 
+with open('input.data.json') as f:
+  content = f.read()
+  TRAIN_INPUT = loads(content)
 
-np.random.seed(0)
-m = 100 # creation de 100 échantillons
-X = np.linspace(0, 10, m).reshape(m,1)
-y = X + np.random.randn(m, 1)
+with open('output.data.json') as f:
+  content = f.read()
+  TRAIN_OUTPUT = loads(content)
 
+predictor = LinearRegression(n_jobs=-1)
 
+predictor.fit(X=TRAIN_INPUT, y=TRAIN_OUTPUT)
 
-model = LinearRegression()
-model.fit(X, y) # entrainement du modele
-model.score(X, y) # évaluation avec le coefficient de corrélation
-
+with open('model.json', 'w') as f:
+  f.write(dumps(predictor.coef_.tolist()))
