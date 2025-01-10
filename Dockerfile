@@ -1,10 +1,6 @@
-FROM ubuntu:latest
+FROM ubuntu
 
-RUN apt update
-RUN apt install python3 -y
+COPY input.data.json /data/
+COPY output.data.json /data/
 
-WORKDIR /usr/app/src
-
-COPY print.py ./
-
-CMD [ "python3", "./print.py"]
+RUN ls /data
